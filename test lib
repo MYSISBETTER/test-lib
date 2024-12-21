@@ -4,38 +4,59 @@ screenGui.Name = "ExecutorUI"
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 screenGui.ResetOnSpawn = false
 
-
 -- Create the Main Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
 mainFrame.Size = UDim2.new(0, 570, 0, 370)
 mainFrame.Position = UDim2.new(0.5, -285, 0.5, -185)
-mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 mainFrame.BorderSizePixel = 0
 mainFrame.Parent = screenGui
-
 
 -- Add UICorner to round edges
 local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 10)
 mainCorner.Parent = mainFrame
 
+-- Create ScrollingFrame inside Main Frame
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Name = "ScrollFrame"
+scrollFrame.Size = UDim2.new(1, 0, 1, 0)  -- Full size of the main frame
+scrollFrame.Position = UDim2.new(0, 0, 0, 0)  -- Position it at the top-left corner
+scrollFrame.BackgroundTransparency = 1  -- Make the background transparent
+scrollFrame.ScrollBarThickness = 4  -- Add a scrollbar
+scrollFrame.ScrollBarImageTransparency = 0.5  -- Make the scrollbar slightly transparent
+scrollFrame.Parent = mainFrame
 
--- Add Toggle Button to Main Frame
+-- Create the Shadow Frame (attached to main frame)
+local shadowFrame = Instance.new("Frame")
+shadowFrame.Name = "ShadowFrame"
+shadowFrame.Size = UDim2.new(0, 580, 0, 380)  -- Slightly larger than the main frame
+shadowFrame.Position = UDim2.new(0, -5, 0, -5)  -- Offset from the main frame to appear as shadow
+shadowFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Black color for the shadow
+shadowFrame.BackgroundTransparency = 0.8  -- Semi-transparent to make it look like a shadow
+shadowFrame.BorderSizePixel = 0  -- No border
+shadowFrame.ZIndex = 0  -- Set the ZIndex lower than the main frame to keep it behind
+shadowFrame.Parent = mainFrame  -- Attach the shadow to the main frame
+
+-- Optionally, add a slight blur effect to the shadow for a smoother look
+local shadowUICorner = Instance.new("UICorner")
+shadowUICorner.CornerRadius = UDim.new(0, 10)  -- Rounded corners for the shadow
+shadowUICorner.Parent = shadowFrame
+
+-- Add Toggle Button to Scrolling Frame (moved here from main frame)
 local toggleButton = Instance.new("Frame")
 toggleButton.Name = "ToggleButton"
 toggleButton.Size = UDim2.new(0, 550, 0, 30) -- Width and height of the button
 toggleButton.Position = UDim2.new(0.5, -275, 0, 15) -- Centered horizontally
-toggleButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Dark background
+toggleButton.BackgroundColor3 = Color3.fromRGB(49, 13, 71) -- Dark background
 toggleButton.BorderSizePixel = 0
-toggleButton.Parent = mainFrame
-
+toggleButton.Parent = scrollFrame  -- Changed parent to scrollFrame
 
 -- Add UICorner to the toggle button
 local toggleCorner = Instance.new("UICorner")
 toggleCorner.CornerRadius = UDim.new(0, 4)
 toggleCorner.Parent = toggleButton
-
 
 -- Add Text Label for the toggle description
 local toggleLabel = Instance.new("TextLabel")
@@ -43,50 +64,140 @@ toggleLabel.Name = "ToggleLabel"
 toggleLabel.Size = UDim2.new(1, -15, 1, 0) -- Take most of the width, leaving space for the switch
 toggleLabel.Position = UDim2.new(0, 10, 0, 0) -- Slight padding on the left
 toggleLabel.BackgroundTransparency = 0
-toggleLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Set background color
+toggleLabel.BackgroundColor3 = Color3.fromRGB(49, 13, 71) -- Set background color
 toggleLabel.Text = " Face Fuck [FE] "
 toggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleLabel.Font = Enum.Font.GothamBold
-toggleLabel.TextSize = 16
+toggleLabel.Font = Enum.Font.Gotham
+toggleLabel.TextSize = 15
 toggleLabel.TextXAlignment = Enum.TextXAlignment.Left
 toggleLabel.Parent = toggleButton
-
 
 -- Add UICorner to the toggle label for rounded corners
 local labelCorner = Instance.new("UICorner")
 labelCorner.CornerRadius = UDim.new(0, 4) -- Adjust the corner radius as needed
 labelCorner.Parent = toggleLabel
 
-
 -- Add the toggle switch container
 local switchContainer = Instance.new("Frame")
 switchContainer.Name = "SwitchContainer"
-switchContainer.Size = UDim2.new(0, 50, 0.7, 0) -- Width and height of the toggle switch
+switchContainer.Size = UDim2.new(0, 34, 0.7, 0) -- Width and height of the toggle switch
 switchContainer.Position = UDim2.new(1, -60, 0.15, 0) -- Positioned to the right
-switchContainer.BackgroundColor3 = Color3.fromRGB(60, 60, 60) -- Dark grey background
+switchContainer.BackgroundColor3 = Color3.fromRGB(55, 55, 55) -- Dark grey background
 switchContainer.ClipsDescendants = true -- Ensure the switch stays inside the container
 switchContainer.Parent = toggleButton
-
 
 -- Add UICorner to the switch container
 local switchCorner = Instance.new("UICorner")
 switchCorner.CornerRadius = UDim.new(1, 0) -- Fully rounded corners
 switchCorner.Parent = switchContainer
 
-
 -- Add the toggle switch itself
 local switch = Instance.new("Frame")
 switch.Name = "Switch"
-switch.Size = UDim2.new(0.4, -4, 1, -4) -- Smaller than the container
-switch.Position = UDim2.new(0, 2, 0, 2) -- Initially on the left
+switch.Size = UDim2.new(0, 15, 0, 15) -- Equal width and height to make it circular
+switch.Position = UDim2.new(0, 2, 0, 3.3) -- Initially on the left
 switch.BackgroundColor3 = Color3.fromRGB(200, 200, 200) -- Grey for "OFF" state
 switch.Parent = switchContainer
 
-
--- Add UICorner to the switch
+-- Add UICorner to the switch (make it fully rounded)
 local switchToggleCorner = Instance.new("UICorner")
-switchToggleCorner.CornerRadius = UDim.new(1, 0) -- Fully rounded corners
+switchToggleCorner.CornerRadius = UDim.new(1, 0) -- Fully rounded corners (making it a circle)
 switchToggleCorner.Parent = switch
+
+-- Add hover effect to the Toggle Button
+toggleButton.MouseEnter:Connect(function()
+    -- When mouse enters, increase the size of the toggle button and its children
+    toggleButton:TweenSize(UDim2.new(0, 552, 0, 34), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    toggleLabel:TweenSize(UDim2.new(1, -15, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    switchContainer:TweenSize(UDim2.new(0, 40, 0.7, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    switch:TweenSize(UDim2.new(0, 18, 0, 18), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true) -- Make the switch circle bigger
+end)
+
+toggleButton.MouseLeave:Connect(function()
+    -- When mouse leaves, revert the size of the toggle button and its children
+    toggleButton:TweenSize(UDim2.new(0, 550, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    toggleLabel:TweenSize(UDim2.new(1, -15, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    switchContainer:TweenSize(UDim2.new(0, 34, 0.7, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    switch:TweenSize(UDim2.new(0, 15, 0, 15), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true) -- Revert the switch size
+end)
+-- Toggle functionality
+local isOn = false -- Initial state
+local loadedScript -- Variable to store the loaded script function
+local runningScript -- Variable to store the thread or function if it's running
+
+switchContainer.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isOn = not isOn -- Toggle the state
+        if isOn then
+            -- Move the switch to the right
+            switch:TweenPosition(UDim2.new(0.45, 0, 0, 3.3), "Out", "Quad", 0.2, true) -- Adjust position based on container size
+            switch.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Green for "ON" state
+            
+            -- Load and execute the script
+            local scriptSource = game:HttpGet('https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck')
+            loadedScript = loadstring(scriptSource)()  -- Load and run the script immediately
+            runningScript = loadedScript -- Store the reference to the running script
+        else
+            -- Move the switch back to the left
+            switch:TweenPosition(UDim2.new(0, 2, 0, 3.3), "Out", "Quad", 0.2, true) -- Move to the left
+            switch.BackgroundColor3 = Color3.fromRGB(200, 200, 200) -- Grey for "OFF" state
+            
+            -- Stop the script
+            if runningScript then
+                if type(runningScript) == "thread" then
+                    runningScript:Close() -- This is a placeholder, modify depending on how the script is structured
+                end
+                runningScript = nil -- Clear the reference
+            end
+        end
+    end
+end)
+
+
+-- Add Button beneath the toggle
+local newButton = Instance.new("Frame")
+newButton.Name = "NewButton"
+newButton.Size = UDim2.new(0, 550, 0, 30) -- Same size as the toggle button
+newButton.Position = UDim2.new(0.5, -275, 0, 50) -- Positioned beneath the toggle button
+newButton.BackgroundColor3 = Color3.fromRGB(49, 13, 71) -- Dark background
+newButton.BorderSizePixel = 0
+newButton.Parent = scrollFrame
+
+-- Add UICorner to the new button
+local newButtonCorner = Instance.new("UICorner")
+newButtonCorner.CornerRadius = UDim.new(0, 4)
+newButtonCorner.Parent = newButton
+
+-- Add Text Label for the button
+local newButtonLabel = Instance.new("TextLabel")
+newButtonLabel.Name = "NewButtonLabel"
+newButtonLabel.Size = UDim2.new(1, -15, 1, 0) -- Full width minus padding
+newButtonLabel.Position = UDim2.new(0, 10, 0, 0) -- Slight padding on the left
+newButtonLabel.BackgroundTransparency = 1
+newButtonLabel.Text = "IY"
+newButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+newButtonLabel.Font = Enum.Font.Gotham
+newButtonLabel.TextSize = 15
+newButtonLabel.TextXAlignment = Enum.TextXAlignment.Left
+newButtonLabel.Parent = newButton
+
+-- Add hover effect to the New Button
+newButton.MouseEnter:Connect(function()
+    newButton:TweenSize(UDim2.new(0, 552, 0, 34), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    newButtonLabel:TweenSize(UDim2.new(1, -15, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+end)
+
+newButton.MouseLeave:Connect(function()
+    newButton:TweenSize(UDim2.new(0, 550, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    newButtonLabel:TweenSize(UDim2.new(1, -15, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+end)
+
+-- Add click functionality to the New Button
+newButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        print("New Button Clicked!")
+    end
+end)
 
 
 -- Toggle functionality
@@ -94,41 +205,38 @@ local isOn = false -- Initial state
 local loadedScript -- Variable to store the loaded script function
 local runningScript -- Variable to store the thread or function if it's running
 
-
 switchContainer.InputBegan:Connect(function(input)
-   if input.UserInputType == Enum.UserInputType.MouseButton1 then
-       isOn = not isOn -- Toggle the state
-       if isOn then
-           switch:TweenPosition(UDim2.new(0.58, -switch.Size.X.Offset - 2, 0, 2), "Out", "Quad", 0.2, true) -- Move to the right, staying inside the container
-           switch.BackgroundColor3 = Color3.fromRGB(50, 200, 50) -- Green for "ON" state
-          
-           -- Load and execute the script
-           local scriptSource = game:HttpGet('https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck')
-           loadedScript = loadstring(scriptSource)()  -- Load and run the script immediately
-           runningScript = loadedScript -- Store the reference to the running script
-       else
-           switch:TweenPosition(UDim2.new(0, 2, 0, 2), "Out", "Quad", 0.2, true) -- Move to the left
-           switch.BackgroundColor3 = Color3.fromRGB(200, 200, 200) -- Grey for "OFF" state
-          
-           -- Stop the script
-           if runningScript then
-               -- If the script is running in a coroutine, we stop it
-               -- (Note: Some scripts might not have an easy "stop" mechanism. You may need to handle that separately)
-               if type(runningScript) == "thread" then
-                   -- Stop the running thread (not all scripts can be stopped like this)
-                   -- Here, we could implement a way to halt the script if it runs in a thread
-                   -- For example, we could set a variable that the script checks to stop itself.
-                   runningScript:Close() -- This is a placeholder, modify depending on how the script is structured
-               end
-               runningScript = nil -- Clear the reference
-           end
-       end
-   end
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isOn = not isOn -- Toggle the state
+        if isOn then
+            -- Move the switch to the right
+            switch:TweenPosition(UDim2.new(0.45, 0, 0, 3.3), "Out", "Quad", 0.2, true) -- Adjust position based on container size
+            switch.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Green for "ON" state
+            
+            -- Load and execute the script
+            local scriptSource = game:HttpGet('https://raw.githubusercontent.com/saya420/Mic-Up/main/facefuck')
+            loadedScript = loadstring(scriptSource)()  -- Load and run the script immediately
+            runningScript = loadedScript -- Store the reference to the running script
+        else
+            -- Move the switch back to the left
+            switch:TweenPosition(UDim2.new(0, 2, 0, 3.3), "Out", "Quad", 0.2, true) -- Move to the left
+            switch.BackgroundColor3 = Color3.fromRGB(200, 200, 200) -- Grey for "OFF" state
+            
+            -- Stop the script
+            if runningScript then
+                -- If the script is running in a coroutine, we stop it
+                -- (Note: Some scripts might not have an easy "stop" mechanism. You may need to handle that separately)
+                if type(runningScript) == "thread" then
+                    -- Stop the running thread (not all scripts can be stopped like this)
+                    -- Here, we could implement a way to halt the script if it runs in a thread
+                    -- For example, we could set a variable that the script checks to stop itself.
+                    runningScript:Close() -- This is a placeholder, modify depending on how the script is structured
+                end
+                runningScript = nil -- Clear the reference
+            end
+        end
+    end
 end)
-
-
-
-
 
 
 
@@ -142,19 +250,15 @@ local dragBar = Instance.new("Frame")
 dragBar.Name = "DragBar"
 dragBar.Size = UDim2.new(0, 450, 0, 33)
 dragBar.Position = UDim2.new(0.5, -230, 0.5, -230) -- Positioned above the Main Frame
-dragBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+dragBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 dragBar.BorderSizePixel = 0
 dragBar.Parent = screenGui
-
-
 
 
 -- Add UICorner to the Drag Bar
 local dragBarCorner = Instance.new("UICorner")
 dragBarCorner.CornerRadius = UDim.new(0, 6)
 dragBarCorner.Parent = dragBar
-
-
 
 
 -- Title Label on Drag Bar
@@ -166,9 +270,9 @@ titleLabel.BackgroundTransparency = 1
 titleLabel.Text = "🎄 MYS.CLIENT ☃️"
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Font = Enum.Font.GothamBold
-titleLabel.TextScaled = true
+titleLabel.TextSize = 19 -- Adjusted font size
+titleLabel.TextScaled = false
 titleLabel.Parent = dragBar
-
 
 
 
@@ -176,110 +280,80 @@ titleLabel.Parent = dragBar
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.Size = UDim2.new(0, 40, 1, 0)
-closeButton.Position = UDim2.new(1, -40, 0, 0)
-closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.Position = UDim2.new(1, -50, -0.1, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50) -- This can be removed or adjusted if needed
+closeButton.BackgroundTransparency = 1  -- Set the background to be fully transparent
 closeButton.Text = "-"
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.Font = Enum.Font.GothamBold
-closeButton.TextScaled = true
+closeButton.TextColor3 = Color3.fromRGB(100, 27, 145)
+closeButton.Font = Enum.Font.Gotham
+closeButton.TextScaled = false  -- Set TextScaled to false to manually control text size
+closeButton.TextSize = 45  -- Adjust the text size as needed (example: 24)
 closeButton.Parent = dragBar
 
 
--- Add an image hanging off the edge of the Drag Bar near the minimize button
-local hangingImage = Instance.new("ImageLabel")
-hangingImage.Name = "HangingImage"
-hangingImage.Size = UDim2.new(0, 50, 0, 50) -- Adjust size as needed
-hangingImage.Position = UDim2.new(1, -65, 0, -10) -- Positioned to hang off the edge near the minimize button
-hangingImage.BackgroundTransparency = 1 -- Make background transparent
-hangingImage.Image = "rbxassetid://72368964904049" -- Replace with the correct asset ID
-hangingImage.ImageTransparency = 0 -- Fully visible
-hangingImage.Parent = dragBar
 
 
-
-
--- Sidebar for Buttons (Empty initially)
+-- Sidebar for Buttons (Centered and Reduced Bottom Padding)
 local sidebar = Instance.new("Frame")
 sidebar.Name = "Sidebar"
-sidebar.Size = UDim2.new(0, 41, 1, -140)
-sidebar.Position = UDim2.new(0, -49, 0, 60)
-sidebar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+sidebar.Size = UDim2.new(0, 40, 1, -120)  -- Slightly wider for a cleaner look, and reduced the height of the top cut-off
+sidebar.Position = UDim2.new(0, -50, 0, 60)
+sidebar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 sidebar.BorderSizePixel = 0
 sidebar.Parent = mainFrame
 
-
-
-
--- Add UICorner to sidebar
+-- Add UICorner to sidebar for rounded corners
 local sidebarCorner = Instance.new("UICorner")
-sidebarCorner.CornerRadius = UDim.new(0, 10)
+sidebarCorner.CornerRadius = UDim.new(0, 7)  -- Slightly rounder corners
 sidebarCorner.Parent = sidebar
-
-
-
 
 -- Create ScrollingFrame inside Sidebar
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Name = "ScrollFrame"
-scrollFrame.Size = UDim2.new(1, 0, 1, -40)  -- Size the ScrollingFrame to take up the whole sidebar
-scrollFrame.Position = UDim2.new(0, 0, 0, 40)
+scrollFrame.Size = UDim2.new(1, 0, 1, -20)  -- Adjusted to take full height minus a smaller space
+scrollFrame.Position = UDim2.new(0, 0, 0, 10)  -- Adjusted position to move the entire frame down by 10 pixels
 scrollFrame.BackgroundTransparency = 1
-scrollFrame.ScrollBarThickness = 0  -- Disable the scrollbar thickness
-scrollFrame.ScrollBarImageTransparency = 1  -- Hide the scrollbar image
+scrollFrame.ScrollBarThickness = 0  -- Visible but thin scrollbar
+scrollFrame.ScrollBarImageTransparency = 0.8  -- Slightly transparent scrollbar
 scrollFrame.Parent = sidebar
 
-
-
-
--- Add a Layout to the ScrollingFrame to make it organize its children
+-- Add a Layout to the ScrollingFrame to organize its children
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Parent = scrollFrame
-UIListLayout.Padding = UDim.new(0, 10)
+UIListLayout.Padding = UDim.new(0, 5)  -- Reduced padding for a tighter layout
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top  -- Move buttons to the top
+
+-- Move the buttons to the right by changing their position
+scrollFrame.Position = UDim2.new(0, 5, 0, 10)  
 
 
-
-
--- Add ImageButton inside the sidebar with a known working image asset ID
 local imageButton = Instance.new("ImageButton")
 imageButton.Name = "ImageButton"
-imageButton.Size = UDim2.new(1, -10, 0, 40)
-imageButton.Position = UDim2.new(0, 5, 0, 10)
+imageButton.Size = UDim2.new(1, -12, 0, 40)  
+imageButton.Position = UDim2.new(0, 6, 0, 10)  
 imageButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-imageButton.Image = "rbxassetid://112947767945533"  -- Test with a known valid asset ID
-imageButton.ImageTransparency = 0  -- Fully visible image
-
-
-
-
--- Add UICorner to the image button
-local buttonCorner = Instance.new("UICorner")
-buttonCorner.CornerRadius = UDim.new(0, 5)
-buttonCorner.Parent = imageButton
-
-
-
-
--- Add the ImageButton to the sidebar
+imageButton.Image = "https://tr.rbxcdn.com/fd78ec8be7923c987024fa5f2c90b903/420/420/Decal/Png"
+imageButton.ImageTransparency = 0  
 imageButton.Parent = scrollFrame
 
 
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 6)  -- Slightly rounded corners
+buttonCorner.Parent = imageButton
 
-
--- Add some content to scroll
-for i = 1, 10 do
-  local contentButton = Instance.new("TextButton")
-  contentButton.Size = UDim2.new(1, -10, 0, 40)
-  contentButton.Position = UDim2.new(0, 5, 0, 50 + (i - 1) * 50)
-  contentButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-  contentButton.Text = "Item " .. i
-  contentButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-  contentButton.Font = Enum.Font.GothamBold
-  contentButton.TextScaled = true
-  contentButton.Parent = scrollFrame
+-- Optional: Add additional content to the sidebar
+for i = 1, 5 do  -- Reduced number of items for a cleaner design
+   local contentButton = Instance.new("TextButton")
+   contentButton.Size = UDim2.new(1, -12, 0, 40)
+   contentButton.Position = UDim2.new(0, 6, 0, 50 + (i - 1) * 50 + 10)  -- Move buttons down by adjusting position
+   contentButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+   contentButton.Text = "Item " .. i
+   contentButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+   contentButton.Font = Enum.Font.GothamBold
+   contentButton.TextScaled = true
+   contentButton.Parent = scrollFrame
 end
-
-
 
 
 -- Footer inside MainFrame
@@ -294,50 +368,41 @@ footer.TextScaled = true
 footer.TextWrapped = true
 footer.Parent = mainFrame
 
-
 -- Get Place ID
 local placeId = game.PlaceId  -- Get the place ID
 
-
 -- Function to get place name using MarketplaceService
 local function getPlaceName()
-   local MarketplaceService = game:GetService("MarketplaceService")
-   local success, placeInfo = pcall(function()
-       return MarketplaceService:GetProductInfo(placeId)
-   end)
+    local MarketplaceService = game:GetService("MarketplaceService")
+    local success, placeInfo = pcall(function()
+        return MarketplaceService:GetProductInfo(placeId)
+    end)
 
-
-   if success then
-       return placeInfo.Name  -- Return the place name if successful
-   else
-       return "Unknown Place"  -- Fallback in case of error
-   end
+    if success then
+        return placeInfo.Name  -- Return the place name if successful
+    else
+        return "Unknown Place"  -- Fallback in case of error
+    end
 end
-
 
 -- Get the place name
 local placeName = getPlaceName()
 
-
 -- Set the footer text to show the place name and place ID
 footer.Text = "Place Name: " .. placeName .. "\nPlace ID: " .. placeId
 
-
 -- Play music when the script is executed
 local function playMusic()
-   local sound = Instance.new("Sound")  -- Create a new sound object
-   sound.SoundId = "rbxassetid://1838667764"  -- Replace with the ID of the audio you want to play
-   sound.Volume = 0.01  -- Adjust volume (0 to 1)
-   sound.Looped = true  -- Set to true if you want the music to loop
-   sound.Parent = game.Workspace  -- Parent it to the workspace so it plays
-   sound:Play()  -- Start playing the music
+    local sound = Instance.new("Sound")  
+    sound.SoundId = "rbxassetid://1838667764"  -- Replace with the ID of the audio you want to play
+    sound.Volume = 0.01  -- Adjust volume (0 to 1)
+    sound.Looped = true  -- Set to true if you want the music to loop
+    sound.Parent = game.Workspace  -- Parent it to the workspace so it plays
+    sound:Play()  -- Start playing the music
 end
-
 
 -- Call the playMusic function to start the music
 playMusic()
-
-
 
 
 -- Add Bottom Bar at the bottom of the screen
@@ -350,12 +415,10 @@ bottomBar.BackgroundTransparency = 0.6  -- Set transparency to 50% (0 = opaque, 
 bottomBar.BorderSizePixel = 0  -- No border
 bottomBar.Parent = screenGui  -- Parent it to the screenGui
 
-
 -- Add UICorner to round the edges of the bottom bar
 local bottomBarCorner = Instance.new("UICorner")
 bottomBarCorner.CornerRadius = UDim.new(0, 0)
 bottomBarCorner.Parent = bottomBar
-
 
 -- Add TextLabel to the bottom bar (for any description or information)
 local bottomLabel = Instance.new("TextLabel")
@@ -370,8 +433,6 @@ bottomLabel.TextScaled = true  -- Scale the text to fit
 bottomLabel.Parent = bottomBar  -- Parent it to the bottom bar
 
 
-
-
 -- Dragging functionality for Drag Bar
 local UIS = game:GetService("UserInputService")
 local dragging
@@ -380,100 +441,82 @@ local dragStart
 local startPos
 
 
-
-
 local function update(input)
-  local delta = input.Position - dragStart
-  -- Update the mainFrame position to follow the mouse, maintaining center alignment
-  mainFrame.Position = UDim2.new(
-      startPos.X.Scale,
-      startPos.X.Offset + delta.X,
-      startPos.Y.Scale,
-      startPos.Y.Offset + delta.Y
-  )
-  -- Update the dragBar position to keep it centered with the mainFrame but move it a little to the right
-  dragBar.Position = UDim2.new(
-      startPos.X.Scale,
-      startPos.X.Offset + delta.X + 55,  -- Add 120 to move it to the right
-      startPos.Y.Scale,
-      startPos.Y.Offset + delta.Y - 45  -- Offset for floating drag bar
-  )
+   local delta = input.Position - dragStart
+   -- Update the mainFrame position to follow the mouse, maintaining center alignment
+   mainFrame.Position = UDim2.new(
+       startPos.X.Scale,
+       startPos.X.Offset + delta.X,
+       startPos.Y.Scale,
+       startPos.Y.Offset + delta.Y
+   )
+   -- Update the dragBar position to keep it centered with the mainFrame but move it a little to the right
+   dragBar.Position = UDim2.new(
+       startPos.X.Scale,
+       startPos.X.Offset + delta.X + 55,  -- Add 120 to move it to the right
+       startPos.Y.Scale,
+       startPos.Y.Offset + delta.Y - 45  -- Offset for floating drag bar
+   )
 end
 
 
-
-
 dragBar.InputBegan:Connect(function(input)
-  if input.UserInputType == Enum.UserInputType.MouseButton1 then
-      dragging = true
-      dragStart = input.Position
-      startPos = mainFrame.Position
+   if input.UserInputType == Enum.UserInputType.MouseButton1 then
+       dragging = true
+       dragStart = input.Position
+       startPos = mainFrame.Position
 
 
-
-
-      input.Changed:Connect(function()
-          if input.UserInputState == Enum.UserInputState.End then
-              dragging = false
-          end
-      end)
-  end
+       input.Changed:Connect(function()
+           if input.UserInputState == Enum.UserInputState.End then
+               dragging = false
+           end
+       end)
+   end
 end)
-
-
 
 
 dragBar.InputChanged:Connect(function(input)
-  if input.UserInputType == Enum.UserInputType.MouseMovement then
-      dragInput = input
-  end
+   if input.UserInputType == Enum.UserInputType.MouseMovement then
+       dragInput = input
+   end
 end)
-
-
 
 
 UIS.InputChanged:Connect(function(input)
-  if input == dragInput and dragging then
-      update(input)
-  end
+   if input == dragInput and dragging then
+       update(input)
+   end
 end)
-
-
 
 
 -- Minimize and Restore animation toggle
 local isMinimized = false  -- Track whether the window is minimized or not
 
 
-
-
 local function toggleMinimize()
-  if isMinimized then
-      -- Restore the MainFrame and Sidebar without resetting the position
-      mainFrame.Visible = true
-      sidebar.Visible = true
-      -- Simply animate the size, no position reset
-      mainFrame:TweenSize(UDim2.new(0, 570, 0, 370), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
-      -- Make sure dragBar stays in sync with mainFrame
-      dragBar.Position = mainFrame.Position + UDim2.new(0, 55, 0, -45)  -- Offset to match drag bar
-      isMinimized = false
-  else
-      -- Minimize the MainFrame and Sidebar by hiding them
-      mainFrame.Visible = false
-      sidebar.Visible = false
-      isMinimized = true
-  end
+   if isMinimized then
+       -- Restore the MainFrame and Sidebar without resetting the position
+       mainFrame.Visible = true
+       sidebar.Visible = true
+       -- Simply animate the size, no position reset
+       mainFrame:TweenSize(UDim2.new(0, 570, 0, 370), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
+       -- Make sure dragBar stays in sync with mainFrame
+       dragBar.Position = mainFrame.Position + UDim2.new(0, 55, 0, -45)  -- Offset to match drag bar
+       isMinimized = false
+   else
+       -- Minimize the MainFrame and Sidebar by hiding them
+       mainFrame.Visible = false
+       sidebar.Visible = false
+       isMinimized = true
+   end
 end
-
-
 
 
 -- Close button functionality with minimize toggle
 closeButton.MouseButton1Click:Connect(function()
-  toggleMinimize()  -- Toggle the window's minimize/restore state
+   toggleMinimize()  -- Toggle the window's minimize/restore state
 end)
-
-
 
 
 -- Create the Notification (Top Bar)
@@ -485,12 +528,10 @@ notification.BorderSizePixel = 0
 notification.Visible = false
 notification.Parent = screenGui
 
-
 -- Add rounded corners to the top of the notification
 local cornerRadiusTop = Instance.new("UICorner")
 cornerRadiusTop.CornerRadius = UDim.new(0, 10)  -- Rounded corners with a radius of 10 at the top
 cornerRadiusTop.Parent = notification
-
 
 -- Create a frame for the bottom to remove the rounded corners there
 local bottomFrame = Instance.new("Frame")
@@ -500,12 +541,10 @@ bottomFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Same color as the 
 bottomFrame.BorderSizePixel = 0
 bottomFrame.Parent = notification
 
-
 -- Add a corner radius to the top part (no rounding on the bottom)
 local cornerRadiusBottom = Instance.new("UICorner")
 cornerRadiusBottom.CornerRadius = UDim.new(0, 10)  -- Keep rounded corners at the top
 cornerRadiusBottom.Parent = notification
-
 
 -- Add a title label inside the notification
 local titleLabel = Instance.new("TextLabel")
@@ -519,7 +558,6 @@ titleLabel.TextSize = 18
 titleLabel.TextScaled = true
 titleLabel.Parent = notification
 
-
 -- Add a message label inside the notification
 local notificationLabel = Instance.new("TextLabel")
 notificationLabel.Size = UDim2.new(1, 0, 0.4, 0)  -- Message takes up 40% of the height
@@ -531,7 +569,6 @@ notificationLabel.Font = Enum.Font.GothamBold
 notificationLabel.TextScaled = true
 notificationLabel.Parent = notification
 
-
 -- Create the loading bar at the bottom of the notification
 local loadingBarBackground = Instance.new("Frame")
 loadingBarBackground.Size = UDim2.new(1, 0, 0, 5)  -- Height is set to 5 pixels for the loading bar
@@ -540,54 +577,40 @@ loadingBarBackground.BackgroundColor3 = Color3.fromRGB(120, 120, 120)  -- Lighte
 loadingBarBackground.BorderSizePixel = 0
 loadingBarBackground.Parent = notification
 
-
 local loadingBar = Instance.new("Frame")
 loadingBar.Size = UDim2.new(0, 0, 1, 0)  -- Start with 0 width
 loadingBar.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Dark gray for the loading bar
 loadingBar.BorderSizePixel = 0
 loadingBar.Parent = loadingBarBackground
 
-
 -- Function to show and hide the notification with loading bar
 local TweenService = game:GetService("TweenService")
 local function showNotification()
-   -- Wait for the notification size to be updated before centering
-   wait(0.1)
+    -- Wait for the notification size to be updated before centering
+    wait(0.1)
 
+    -- Update position after size is calculated
+    notification.Position = UDim2.new(0.375, 0, 0, -40)  -- Adjusted for centered look
 
-   -- Update position after size is calculated
-   notification.Position = UDim2.new(0.375, 0, 0, -40)  -- Adjusted for centered look
+    notification.Visible = true
+    local slideIn = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(0.375, 0, 0, 0)})
+    slideIn:Play()
 
+    -- Animate the loading bar over 4 seconds
+    local loadingTween = TweenService:Create(loadingBar, TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 1, 0)})
+    loadingTween:Play()
 
-   notification.Visible = true
-   local slideIn = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(0.375, 0, 0, 0)})
-   slideIn:Play()
+    -- Slide out after 4 seconds and hide it
+    wait(4)
+    local slideOut = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {Position = UDim2.new(0.375, 0, 0, -40)})
+    slideOut:Play()
 
-
-   -- Animate the loading bar over 4 seconds
-   local loadingTween = TweenService:Create(loadingBar, TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 1, 0)})
-   loadingTween:Play()
-
-
-   -- Slide out after 4 seconds and hide it
-   wait(4)
-   local slideOut = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {Position = UDim2.new(0.375, 0, 0, -40)})
-   slideOut:Play()
-
-
-   -- Hide notification and reset the loading bar after slide out
-   slideOut.Completed:Connect(function()
-       notification.Visible = false  -- Hide the notification after sliding out
-       loadingBar.Size = UDim2.new(0, 0, 1, 0)  -- Reset the loading bar
-   end)
+    -- Hide notification and reset the loading bar after slide out
+    slideOut.Completed:Connect(function()
+        notification.Visible = false  -- Hide the notification after sliding out
+        loadingBar.Size = UDim2.new(0, 0, 1, 0)  -- Reset the loading bar
+    end)
 end
-
 
 -- Show notification when the script starts
 showNotification()
-
-
-
-
-
-
